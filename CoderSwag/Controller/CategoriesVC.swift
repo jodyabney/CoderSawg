@@ -14,7 +14,10 @@ class CategoriesVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        categoryTableView.delegate = self
+        categoryTableView.dataSource = self
+
     }
 
 
