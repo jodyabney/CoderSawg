@@ -22,7 +22,7 @@ class CategoriesVC: UIViewController, UITableViewDataSource, UITableViewDelegate
 
 
     
-    //MARK: - TableViewDataSource
+    //MARK: - TableView DataSource Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataService.instance.getCategories().count
@@ -35,6 +35,28 @@ class CategoriesVC: UIViewController, UITableViewDataSource, UITableViewDelegate
             return cell
         } else {
             return CategoryViewCell()
+        }
+    }
+    
+    //MARK: - TableView Delegate Methods
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let category = DataService.instance.getCategories()[indexPath.row]
+        performSegue(withIdentifier: "ProductVC", sender: category)
+    }
+    
+    //MARK: - Segue Methods
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let productVC = segue.destination as? ProductVC {
+            // set up back button to only display the arrow (no title)
+            let barButton = UIBarButtonItem()
+            barButton.title = ""
+            navigationItem.backBarButtonItem = barButton
+            
+            // pass the category data
+            assert(sender as? Category != nil)
+            productVC.initProducts(category: sender as! Category)
         }
     }
     
